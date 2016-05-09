@@ -6,7 +6,7 @@ set -e
 
 cd /app/src
 
-DJANGO_SETTINGS_MODULE=$($python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE"))')
+DJANGO_SETTINGS_MODULE=$($python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE", ""))')
 if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
 	echo "src/manage.py must set environment variable DJANGO_SETTINGS_MODULE"
 	exit 1
@@ -19,7 +19,7 @@ ln -s settings_docker.py $(echo -ne $DJANGO_SETTINGS_MODULE | sed -re 's/[^\.]+$
 sudo -u www-data $python manage.py collectstatic --link --noinput
 chown -R root /app/var/static
 
-WSGI_APPLICATION=$($python -c 'import manage, django; from django.conf import settings; print(getattr(settings, "WSGI_APPLICATION", ""))')
+WSGI_APPLICATION=$($python -c 'import manage, django; from django.conf import settings; print(settings.WSGI_APPLICATION or "")')
 if [ -z "$WSGI_APPLICATION" ]; then
 	echo "Django settings module at '$DJANGO_SETTINGS_MODULE' must define WSGI_APPLICATION"
 	exit 1
