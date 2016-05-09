@@ -12,9 +12,8 @@ if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
 	exit 1
 fi
 
-mkdir -p /app/var/{media,static}
-chown -R www-data /app/var/{media,static}
-
+mkdir -p /app/var/static
+chown -R www-data /app/var/static
 ln -s settings_docker.py $(echo -ne $DJANGO_SETTINGS_MODULE | sed -re 's/[^\.]+$//' | sed -e 's/\./\//g')local_settings.py
 sudo -u www-data $python manage.py collectstatic --link --noinput
 chown -R root /app/var/static

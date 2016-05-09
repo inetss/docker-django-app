@@ -27,6 +27,8 @@ RUN /setup/setup_server.sh
 CMD ["/entrypoint.sh"]
 
 EXPOSE 80
+
+RUN mkdir -p /app/var/media && chown www-data /app/var/media
 VOLUME /app/var/media
 
 # Rare changes
