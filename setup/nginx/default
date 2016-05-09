@@ -1,0 +1,15 @@
+server {
+	listen 80 default_server;
+
+	root /app/var;
+
+	location / {
+		rewrite ^/([^/]+\.[^/]+)$ /static/$1 last; # robots.txt and friends
+		include uwsgi_params;
+		uwsgi_pass 127.0.0.1:3333;
+		client_max_body_size 100M;
+	}
+
+	location /static/ {}
+	location /media/ {}
+}
