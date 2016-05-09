@@ -2,13 +2,13 @@
 
 set -e
 
-echoerr() { printf "%s\n" "$*" >&2; }
+. /setup/python_version.sh
 
 cd /app/src
 
 DJANGO_SETTINGS_MODULE=$($python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE"))')
 if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
-	echoerr "src/manage.py should set environment variable DJANGO_SETTINGS_MODULE"
+	echo "src/manage.py must set environment variable DJANGO_SETTINGS_MODULE"
 	exit 1
 fi
 
@@ -21,7 +21,7 @@ chown -R root /app/var/static
 
 WSGI_APPLICATION=$($python -c 'import manage, django; from django.conf import settings; print(getattr(settings, "WSGI_APPLICATION", ""))')
 if [ -z "$WSGI_APPLICATION" ]; then
-	echoerr "$DJANGO_SETTINGS_MODULE should define WSGI_APPLICATION"
+	echo "Django settings module at '$DJANGO_SETTINGS_MODULE' must define WSGI_APPLICATION"
 	exit 1
 fi
-sed -i -e "s/module=.*/module=$(echo -ne $WSGI_APPLICATION | sed -re 's/\.([^\.]+)$/:\1/')/" /etc/uwsgi/apps-enabled/app.ini
+sed -i -e "s/^module=.*/module=$(echo -ne $WSGI_APPLICATION | sed -re 's/\.([^\.]+)$/:\1/')/" /etc/uwsgi/apps-enabled/app.ini
