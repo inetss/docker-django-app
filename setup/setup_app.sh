@@ -8,7 +8,7 @@ cd /app/src
 
 DJANGO_SETTINGS_MODULE=$($python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE", ""))')
 if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
-	echo "src/manage.py must set environment variable DJANGO_SETTINGS_MODULE"
+	>&2 echo "src/manage.py must set environment variable DJANGO_SETTINGS_MODULE"
 	exit 1
 fi
 
@@ -21,7 +21,7 @@ chown -R root /app/var/static
 
 WSGI_APPLICATION=$($python -c 'import manage, django; from django.conf import settings; print(settings.WSGI_APPLICATION or "")')
 if [ -z "$WSGI_APPLICATION" ]; then
-	echo "Django settings module at '$DJANGO_SETTINGS_MODULE' must define WSGI_APPLICATION"
+	>&2 echo "Django settings module at '$DJANGO_SETTINGS_MODULE' must define WSGI_APPLICATION"
 	exit 1
 fi
 sed -i -e "s/^module=.*/module=$(echo -ne $WSGI_APPLICATION | sed -re 's/\.([^\.]+)$/:\1/')/" /etc/uwsgi/apps-enabled/app.ini
