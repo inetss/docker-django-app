@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /setup/python_version.sh
+
 cd /app/src
 sudo -u www-data -E $python manage.py migrate --noinput
 [ ! -z "$DJANGO_ADMIN_CREATE" ] && sudo -u www-data -E $python << EOF
