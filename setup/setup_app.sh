@@ -24,3 +24,5 @@ if [ -z "$WSGI_APPLICATION" ]; then
 	exit 1
 fi
 sed -i -e "s/^module=.*/module=$(echo -ne $WSGI_APPLICATION | sed -re 's/\.([^\.]+)$/:\1/')/" /etc/uwsgi/apps-enabled/app.ini
+
+touch /app/var/configured

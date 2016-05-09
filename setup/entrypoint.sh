@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ ! -f /app/var/configured ]; then
+	>&2 echo /app/var/configured not found, falling back to bash prompt
+	>&2 echo Did you run this image instead of inheriting from it?
+	/bin/bash
+	exit
+fi
+
 . /setup/python_version.sh
 
 cd /app/src
