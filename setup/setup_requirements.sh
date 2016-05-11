@@ -11,7 +11,6 @@ if [ ! -z "$APT_PACKAGES" ]; then
 	rm -rf /var/lib/apt/lists/*
 fi
 
-pip${PYTHON_SUFFIX} install --upgrade pip
-pip${PYTHON_SUFFIX} install -r /app/requirements.txt
+pip${PYTHON_SUFFIX} install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt
 
 sed -i -e "s/^plugins=.*/plugins=$python/" /etc/uwsgi/apps-enabled/app.ini
