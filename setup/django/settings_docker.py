@@ -1,5 +1,8 @@
-from settings import *
 import os
+if '.' in __name__:
+	from .settings import *
+else:
+	from settings import *
 
 if os.getenv('MYSQL_PORT_3306_TCP_ADDR') or os.getenv('MYSQL_HOST'):
 	DATABASES = {
