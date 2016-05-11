@@ -1,9 +1,9 @@
 import manage, django, os
 
-if django >= (1,7):
+if django.VERSION >= (1,7):
 	django.setup()
 
-if django >= (1,5):
+if django.VERSION >= (1,5):
 	from django.contrib.auth import get_user_model
 	User = get_user_model()
 else:
