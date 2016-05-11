@@ -20,8 +20,11 @@ RUN \
 		uwsgi-plugin-python3 && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY setup /setup/
-RUN /setup/setup_server.sh
+COPY supervisor/app.conf /etc/supervisor/conf.d/
+COPY uwsgi/app.ini /etc/uwsgi/apps-enabled/
+COPY nginx/app.conf /etc/nginx/sites-enabled/default
+COPY entrypoint.sh /
+COPY setup /setup
 
 # Default Ubuntu entrypoint is bash, keep it
 CMD ["/entrypoint.sh"]
@@ -38,4 +41,4 @@ ONBUILD RUN /setup/setup_requirements.sh
 
 # Frequent changes
 ONBUILD COPY . /app/
-ONBUILD RUN /setup/setup_app.sh
+ONBUILD RUN touch /app/var/installed.flag
