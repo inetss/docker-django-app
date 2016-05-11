@@ -18,7 +18,7 @@ elif os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'):
 			'ENGINE': 'django.db.backends.postgresql_psycopg2',
 			'HOST': os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'),
 			'PORT': os.getenv('POSTGRES_PORT_5432_TCP_PORT') or os.getenv('POSTGRES_PORT'),
-			'USER': os.getenv('POSTGRES_USER') or os.getenv('POSTGRES_USERNAME'),
+			'USER': os.getenv('POSTGRES_USER') or os.getenv('POSTGRES_USERNAME') or 'postgres',
 			'PASSWORD': os.getenv('POSTGRES_PASSWORD') or os.getenv('POSTGRES_PASS'),
 			'NAME': os.getenv('POSTGRES_DATABASE') or os.getenv('POSTGRES_DB'),
 		},
