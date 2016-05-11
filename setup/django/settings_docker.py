@@ -1,7 +1,7 @@
 from settings import *
 import os
 
-if os.getenv('DJANGO_DATABASE') == 'mysql':
+if os.getenv('MYSQL_PORT_3306_TCP_ADDR') or os.getenv('MYSQL_HOST'):
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.mysql',
@@ -12,7 +12,7 @@ if os.getenv('DJANGO_DATABASE') == 'mysql':
 			'NAME': os.getenv('MYSQL_DATABASE') or os.getenv('MYSQL_DB'),
 		},
 	}
-elif os.getenv('DJANGO_DATABASE') == 'postgres':
+elif os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'):
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.postgresql_psycopg2',
