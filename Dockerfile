@@ -36,7 +36,6 @@ VOLUME /app/var/media
 
 # Rare changes
 ONBUILD COPY requirements.txt /app/
-ONBUILD COPY src/manage.py /app/src/
 ONBUILD RUN /setup/setup_requirements.sh
 
 # Frequent changes

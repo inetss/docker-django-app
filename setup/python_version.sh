@@ -1,11 +1,8 @@
 #!/bin/bash
 
-PYTHON_MAJOR_VERSION=$($(cat /app/src/manage.py |head -n 1|tail -c +3) -c 'import sys; print(sys.version_info[0])')
+die() { >&2 echo -e $@; exit 1; }
 
-case $PYTHON_MAJOR_VERSION in
-2) PYTHON_SUFFIX="";;
-3) PYTHON_SUFFIX="3";;
-*) >&2 echo "src/manage.py must include a hashbang for a proper Python version"; exit 1;;
-esac
-
-python=python${PYTHON_SUFFIX}
+PYTHON_VARIANTS=$(cat /app/requirements.txt |grep '^# python: '| sed -re 's/.*://')
+[ -n "$PYTHON_VARIANTS" ] || die "Add python variants to requirements.txt like this:\n# python: python3.5 python3.4"
+for python in $PYTHON_VARIANTS; do python=$(which "$python"; true); if [ -n "$python" ]; then break; fi; done
+[ -n "$python" ] || die "Could not find any of $PYTHON_VARIANTS"

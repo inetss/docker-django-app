@@ -4,7 +4,7 @@ set -e
 
 . /setup/python_version.sh
 
-APT_PACKAGES=$(cat /app/requirements.txt |grep '# apt'| sed -re 's/.*://')
+APT_PACKAGES=$(cat /app/requirements.txt |grep '^# apt: '| sed -re 's/.*://')
 if [ ! -z "$APT_PACKAGES" ]; then
 	apt-get update
 	DEBIAN_FRONTEND=noninteractive apt-get install -y $APT_PACKAGES
@@ -13,4 +13,5 @@ fi
 
 pip${PYTHON_SUFFIX} install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt
 
-sed -i -e "s/^plugins=.*/plugins=$python/" /etc/uwsgi/apps-enabled/app.ini
+UWSGI_PLUGIN=$($python -c 'import sys; print("python{0}{1}".format(*sys.version_info[0:2]))')
+sed -i -e "s/^plugins=.*/plugins=$UWSGI_PLUGIN/" /etc/uwsgi/apps-enabled/app.ini
