@@ -1,6 +1,6 @@
 # Introduction
 
-Run a Django app in a Docker container.
+This is a reusable Docker container to run a Django app with nginx and uwsgi.
 
 Features:
 
