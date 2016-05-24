@@ -11,7 +11,8 @@ if [ ! -z "$APT_PACKAGES" ]; then
 	rm -rf /var/lib/apt/lists/*
 fi
 
-pip${PYTHON_SUFFIX} install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt
+pip=$($python -c 'import sys; print("pip{0}".format(sys.version_info[0]))')
+$pip install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt
 
 UWSGI_PLUGIN=$($python -c 'import sys; print("python{0}{1}".format(*sys.version_info[0:2]))')
 sed -i -e "s/^plugins=.*/plugins=$UWSGI_PLUGIN/" /etc/uwsgi/apps-enabled/app.ini
