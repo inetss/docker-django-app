@@ -31,7 +31,7 @@ ALLOWED_HOSTS = list(filter(None, os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',
 
 DEBUG = bool(os.getenv('DJANGO_DEBUG'))
 
-RAVEN_DSN = os.getenv('RAVEN_DSN')
-if RAVEN_DSN:
-	RAVEN_CONFIG = {'dsn': RAVEN_DSN}
+SENTRY_DSN = os.getenv('RAVEN_DSN')
+if SENTRY_DSN:
+	RAVEN_CONFIG = {'dsn': SENTRY_DSN}
 	INSTALLED_APPS = list(INSTALLED_APPS) + ['raven.contrib.django.raven_compat']

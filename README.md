@@ -148,7 +148,7 @@ Defaults to `postgres`.
 
 ## `POSTGRES_DB` or `POSTGRES_DATABASE`
 
-## `RAVEN_DSN`
+## `SENTRY_DSN`
 
 Set this to `https://xxx:yyy@sentry.company.org/123` to enable Sentry reporting.
 
