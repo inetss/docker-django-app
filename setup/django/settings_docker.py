@@ -22,7 +22,7 @@ elif os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'):
 			'HOST': os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'),
 			'PORT': os.getenv('POSTGRES_PORT_5432_TCP_PORT') or os.getenv('POSTGRES_PORT'),
 			'USER': os.getenv('POSTGRES_USER') or os.getenv('POSTGRES_USERNAME') or 'postgres',
-			'PASSWORD': os.getenv('POSTGRES_PASSWORD') or os.getenv('POSTGRES_PASS'),
+			'PASSWORD': os.getenv('POSTGRES_PASSWORD') or os.getenv('POSTGRES_PASS') or os.getenv('POSTGRES_ENV_POSTGRES_PASSWORD'),
 			'NAME': os.getenv('POSTGRES_DATABASE') or os.getenv('POSTGRES_DB'),
 		},
 	}
