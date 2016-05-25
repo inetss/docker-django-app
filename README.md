@@ -116,9 +116,17 @@ Comma-separated list that goes into Django `ALLOWED_HOSTS`.
 
 Set to anything non-empty to enable Django `DEBUG`.
 
+## `MEMCACHED_PORT_11211_TCP_ADDR` and friends
+
+Discovers a link to the official `memcached` Docker container and configures Django `CACHES`.
+
+## `MEMCACHED_LOCATION`
+
+Use [Django memcached location format](https://docs.djangoproject.com/en/1.9/topics/cache/#memcached) (e.g. `server:port`).
+
 ## `MYSQL_PORT_3306_TCP_ADDR` and friends
 
-Discovers a link to the official `mysql` Docker container.
+Discovers a link to the official `mysql` Docker container and configures Django `DATABASES`.
 
 ## `MYSQL_HOST`
 
@@ -134,7 +142,7 @@ Defaults to `root`.
 
 ## `POSTGRES_PORT_5432_TCP_ADDR` and friends
 
-Discovers a link to the official `postgres` Docker container.
+Discovers a link to the official `postgres` Docker container and configures Django `DATABASES`.
 
 ## `POSTGRES_HOST`
 

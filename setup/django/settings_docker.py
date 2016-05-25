@@ -27,6 +27,15 @@ elif os.getenv('POSTGRES_PORT_5432_TCP_ADDR') or os.getenv('POSTGRES_HOST'):
 		},
 	}
 
+if os.getenv('MEMCACHED_PORT_11211_TCP_ADDR') or os.getenv('MEMCACHED_LOCATION'):
+	CACHES = {
+		'default': {
+			'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+			'LOCATION': os.getenv('MEMCACHED_LOCATION') or ':'.join([os.getenv('MEMCACHED_PORT_11211_TCP_ADDR'), os.getenv('MEMCACHED_PORT_11211_TCP_PORT')]),
+			'KEY_PREFIX': os.getenv('MEMCACHED_PREFIX'),
+		}
+	}
+
 ALLOWED_HOSTS = list(filter(None, os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')))
 
 DEBUG = bool(os.getenv('DJANGO_DEBUG'))
