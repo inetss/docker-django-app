@@ -2,18 +2,18 @@
 
 set -e
 
-. /setup/python_version.sh
+cd /app
 
-cd /app/src
+. /setup/python_version.sh
 
 # Locate Django settings
 
-DJANGO_SETTINGS_MODULE=$($python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE", ""))')
+DJANGO_SETTINGS_MODULE=$(sudo -u www-data -E PYTHONPATH=/app/src $python -c 'import manage, os; print(os.getenv("DJANGO_SETTINGS_MODULE", ""))')
 if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
 	>&2 echo "src/manage.py must set environment variable DJANGO_SETTINGS_MODULE"
 	exit 1
 fi
-DJANGO_SETTINGS_DIR=$(pwd)/$(echo -ne $DJANGO_SETTINGS_MODULE | sed -re 's/[^\.]+$//' | sed -e 's/\./\//g')
+DJANGO_SETTINGS_DIR=/app/src/$(echo -ne $DJANGO_SETTINGS_MODULE | sed -re 's/[^\.]+$//' | sed -e 's/\./\//g')
 echo "Found Django settings module '$DJANGO_SETTINGS_MODULE' at $DJANGO_SETTINGS_DIR"
 
 # Put Docker settings
@@ -43,25 +43,37 @@ if [ -n "$DJANGO_LOCAL_SETTINGS_FILE" ]; then
 	fi
 fi
 
+#
+# At this point the Django app is fully configured. Hooray!
+#
+
 # Collect static on first run
 
-if [ ! -f /app/var/static ]; then
-	mkdir -p /app/var/static
-	chown www-data /app/var/static
-	sudo -u www-data $python manage.py collectstatic --link --noinput
+if [ ! -f var/static ]; then
+	mkdir -p var/static
+	chown www-data var/static
+	sudo -u www-data $python src/manage.py collectstatic --link --noinput
 fi
 
 # Migrate database
 
-sudo -u www-data -E $python manage.py migrate --noinput
+sudo -u www-data -E $python src/manage.py migrate --noinput
+
+# Run requirements.d
+
+if [ -d requirements.d/app ]; then
+	run-parts --exit-on-error requirements.d/app
+fi
 
 # Create admin User if there ain't any users
 
-[ "${DJANGO_ADMIN_CREATE-y}" == "y" ] && sudo -u www-data -E PYTHONPATH=. $python /setup/django/create_admin.py
+if [ "${DJANGO_ADMIN_CREATE-y}" == "y" ]; then
+	sudo -u www-data -E PYTHONPATH=/app/src $python /setup/django/create_admin.py
+fi
 
 # Configure wsgi
 
-WSGI_APPLICATION=$($python -c 'import manage, django; from django.conf import settings; print(settings.WSGI_APPLICATION or "")')
+WSGI_APPLICATION=$(cd src; $python -c 'import manage, django; from django.conf import settings; print(settings.WSGI_APPLICATION or "")')
 if [ -z "$WSGI_APPLICATION" ]; then
 	>&2 echo "Django settings module at '$DJANGO_SETTINGS_MODULE' must define WSGI_APPLICATION"
 	exit 1
