@@ -57,7 +57,7 @@ from .local_settings import *
 
 Point `MEDIA_ROOT` here.
 
-### var/satic
+### var/static
 
 Point `STATICFILES_ROOT` here.
 
