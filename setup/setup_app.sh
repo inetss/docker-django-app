@@ -47,9 +47,8 @@ fi
 
 if [ ! -f /app/var/static ]; then
 	mkdir -p /app/var/static
-	chown -R www-data /app/var/static
+	chown www-data /app/var/static
 	sudo -u www-data $python manage.py collectstatic --link --noinput
-	chown -R root /app/var/static
 fi
 
 # Migrate database
