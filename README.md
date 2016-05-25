@@ -65,10 +65,11 @@ Point `STATICFILES_ROOT` here.
 
 ```
 $ docker build -t app .
-$ docker run --rm -it --name app --link postgres -e POSTGRES_PASSWORD=secret -e DJANGO_DEBUG=1 -v /srv/app/media:/app/var/media -p 8000:80 app
+$ docker run -d --name app-postgres -e POSTGRES_PASSWORD=secret postgres
+$ docker run --rm -it --name app --link app-postgres:postgres -e DJANGO_DEBUG=1 -v $(pwd)/var/media:/app/var/media -p 8000:80 app
 ```
 
-Then open http://localhost:8000
+Then open <http://localhost:8000>
 
 # Entrypoint customization
 
