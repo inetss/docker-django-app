@@ -35,7 +35,7 @@ RUN mkdir -p /app/var/media && chown www-data /app/var/media
 VOLUME /app/var/media
 
 # Rare changes
-ONBUILD COPY requirements.txt /app/
+ONBUILD COPY requirements.* /app/
 ONBUILD RUN /setup/setup_requirements.sh
 
 # Frequent changes

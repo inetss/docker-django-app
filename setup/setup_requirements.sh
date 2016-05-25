@@ -11,6 +11,8 @@ if [ ! -z "$APT_PACKAGES" ]; then
 	rm -rf /var/lib/apt/lists/*
 fi
 
+[ -x /app/requirements.sh ] && /app/requirements.sh
+
 pip=$($python -c 'import sys; print("pip{0}".format(sys.version_info[0]))')
 $pip install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt
 
