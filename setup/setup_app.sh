@@ -61,8 +61,8 @@ sudo -u www-data -E $python src/manage.py migrate --noinput
 
 # Run requirements.d
 
-if [ -d requirements.d/app ]; then
-	run-parts --exit-on-error requirements.d/app
+if [ -d entrypoint.d ]; then
+	run-parts --exit-on-error entrypoint.d
 fi
 
 # Create admin User if there ain't any users
