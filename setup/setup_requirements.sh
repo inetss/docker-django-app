@@ -17,7 +17,7 @@ if [ ! -d requirements.d ]; then
 	# Dockerfile: COPY requirements.* pulls everything from requirements.d and discards the actual directory, restore it
 	# Rockerfile: not needed, will be skipped (see https://github.com/grammarly/rocker/issues/103)
 	mkdir requirements.d
-	find . -type f -executable -depth 1 -exec mv "{}" requirements.d \;
+	find . -maxdepth 1 -type f -executable -exec mv "{}" requirements.d \;
 fi
 run-parts --exit-on-error requirements.d
 
