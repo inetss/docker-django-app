@@ -77,13 +77,13 @@ The following environment variables are accepted:
 
 ## `DJANGO_DOCKER_SETTINGS=y`
 
-If set to "y", puts `settings_docker.py` helper near your `settings.py`
+If set to "y", puts `docker_settings.py` helper near your `settings.py`
 
-## `DJANGO_DOCKER_SETTINGS_FILE=settings_docker.py`
+## `DJANGO_DOCKER_SETTINGS_FILE=docker_settings.py`
 
-Overrides `settings_docker.py` file name (see `DJANGO_DOCKER_SETTINGS`)
+Overrides `docker_settings.py` file name (see `DJANGO_DOCKER_SETTINGS`)
 
-## `DJANGO_LOCAL_SETTINGS_FILE=settings_docker.py`
+## `DJANGO_LOCAL_SETTINGS_FILE=docker_settings.py`
 
 Creates a symlink from that file to `local_settings.py`
 
@@ -93,7 +93,7 @@ Ignored if `DJANGO_DOCKER_SETTINGS` is disabled.
 
 ## `DJANGO_LOCAL_SETTINGS_DEST_FILE=local_settings.py`
 
-Creates a symlink from `settings_docker.py` to this file.
+Creates a symlink from `docker_settings.py` to this file.
 
 Ignored if `DJANGO_DOCKER_SETTINGS` is disabled, or if the file already exists.
 
@@ -167,7 +167,7 @@ Place the config file at your Docker host (e.g. at `/srv/app/config/local_settin
 
 ```
 from .settings import *
-from .settings_docker import *
+from .docker_settings import *
 
 EMAIL_HOST = 'mail.company.org'
 ```

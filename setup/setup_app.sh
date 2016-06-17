@@ -19,7 +19,7 @@ echo "Found Django settings module '$DJANGO_SETTINGS_MODULE' at $DJANGO_SETTINGS
 # Put Docker settings
 
 if [ "${DJANGO_DOCKER_SETTINGS-y}" == "y" ]; then
-	DJANGO_DOCKER_SETTINGS_FILE=${DJANGO_DOCKER_SETTINGS_FILE:-settings_docker.py}
+	DJANGO_DOCKER_SETTINGS_FILE=${DJANGO_DOCKER_SETTINGS_FILE:-docker_settings.py}
 else
 	DJANGO_DOCKER_SETTINGS_FILE=""
 fi
@@ -27,7 +27,7 @@ if [ -n "$DJANGO_DOCKER_SETTINGS_FILE" ]; then
 	DJANGO_DOCKER_SETTINGS_PATH="${DJANGO_SETTINGS_DIR}${DJANGO_DOCKER_SETTINGS_FILE}"
 	if [ ! -f "$DJANGO_DOCKER_SETTINGS_PATH" ]; then
 		echo "Adding $DJANGO_DOCKER_SETTINGS_PATH"
-		ln -s /setup/django/settings_docker.py "$DJANGO_DOCKER_SETTINGS_PATH"
+		ln -s /setup/django/docker_settings.py "$DJANGO_DOCKER_SETTINGS_PATH"
 	fi
 fi
 
