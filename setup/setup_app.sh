@@ -43,6 +43,12 @@ if [ -n "$DJANGO_LOCAL_SETTINGS_FILE" ]; then
 	fi
 fi
 
+# setup_app.d
+
+if [ -d setup_app.d ]; then
+	run-parts --exit-on-error setup_app.d
+fi
+
 #
 # At this point the Django app is fully configured. Hooray!
 #
@@ -59,7 +65,7 @@ fi
 
 sudo -u www-data -E $python src/manage.py migrate --noinput
 
-# Run requirements.d
+# entrypoint.d
 
 if [ -d entrypoint.d ]; then
 	run-parts --exit-on-error entrypoint.d
