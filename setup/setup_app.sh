@@ -58,7 +58,7 @@ fi
 if [ ! -f var/static ]; then
 	mkdir -p var/static
 	chown www-data var/static
-	sudo -u www-data $python src/manage.py collectstatic --link --noinput
+	sudo -u www-data -E $python src/manage.py collectstatic --link --noinput
 fi
 
 # Migrate database
