@@ -1,11 +1,11 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ENV LANG=en_US.UTF-8
 
 RUN \
-	locale-gen en_US.UTF-8 && \
 	apt-get update && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
+		locales \
 		nginx \
 		python \
 		python-dev \
@@ -18,7 +18,8 @@ RUN \
 		uwsgi \
 		uwsgi-plugin-python \
 		uwsgi-plugin-python3 && \
-	rm -rf /var/lib/apt/lists/*
+	rm -rf /var/lib/apt/lists/* && \
+	locale-gen en_US.UTF-8
 
 COPY supervisor/app.conf /etc/supervisor/conf.d/
 COPY uwsgi/app.ini /etc/uwsgi/apps-enabled/
